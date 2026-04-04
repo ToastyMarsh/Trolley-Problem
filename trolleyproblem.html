@@ -45,31 +45,60 @@
             background-image: url('straighttrack.png');
             background-repeat:repeat-x;
             background-position: center;
+            top:40%
             /* background-color: blue; */
         }
         #railsplit {
             position: absolute;
             display: flex;
-            left:50%;
+            left:32%;
             width: 180px;
             height: 150px;
             background-image: url('righttrack.png');
             background-position: center;
-            background-position-y: 63%;
+            background-position-y: 93%;
             /* background-color: blue; */
         }
         #bottomrails {
             position: absolute;
             display: flex;
-            top: 60%;
-            left:67.9%;
-            width: 321px;
+            top: 50%;
+            left:50%;
+            width: 500px;
             height: 100px;
             background-image: url('straighttrack.png');
             background-repeat:repeat-x;
             background-position-y: center;
             background-position-x: left;
             z-index: 2;
+            /* background-color: blue; */
+        }
+        #train{
+            transform: scaleX(-.14) scaleY(.15);
+            position: absolute;
+            display: flex;
+            top: -38%;
+            left:-55%;
+            width: 1400px;
+            height: 800px;
+            background-image: url('train.png');
+            background-position-y: center;
+            background-position-x: left;
+            z-index: 1;
+            /* background-color: blue; */
+        }
+        #bloodytrain{
+            transform: scaleX(-.14) scaleY(.15);
+            position: absolute;
+            display: flex;
+            top: -38%;
+            left:-35%;
+            width: 1400px;
+            height: 800px;
+            background-image: url('bloodytrain.png');
+            background-position-y: center;
+            background-position-x: left;
+            z-index: 1;
             /* background-color: blue; */
         }
     </style>
@@ -84,6 +113,11 @@
             </div>
             <div id='bottomrails'>
             </div>
+            <div id='train'>
+            </div>
+            <div id='bloodytrain'>
+            </div>
+
         </div>
     </div>
 </body>
