@@ -2,18 +2,26 @@
 
 <head>
     <style>
+
+        :root, html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* keeps full screen contained */
+        }
         *{
             margin: 0;
             padding: 0;
             border: 0;
             box-sizing: border-box;
-            font-family: "Rye", serif;
+            font-family: 'Courier New', monospace;
             font-weight: 400;
             font-style: normal;
             
         }
         :root{
-            overflow-y: hidden;
+            overflow: hidden;
         }
         #main {
             width: 100%;
@@ -45,7 +53,7 @@
             background-image: url('straighttrack.png');
             background-repeat:repeat-x;
             background-position: center;
-            top:40%
+            top:40%;
             /* background-color: blue; */
         }
         #railsplit {
@@ -84,42 +92,275 @@
             background-image: url('train.png');
             background-position-y: center;
             background-position-x: left;
-            z-index: 1;
+            z-index: 10;
             /* background-color: blue; */
         }
-        #bloodytrain{
-            transform: scaleX(-.14) scaleY(.15);
-            position: absolute;
+        #intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: lightblue;
             display: flex;
-            top: -38%;
-            left:-35%;
-            width: 1400px;
-            height: 800px;
-            background-image: url('bloodytrain.png');
-            background-position-y: center;
-            background-position-x: left;
-            z-index: 1;
-            /* background-color: blue; */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
         }
+        #dilemma {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            color: black;
+            z-index: 5;
+        }
+        #lever, #submit {
+            position: absolute;
+            bottom: 10px;
+            z-index: 5;
+        }
+        #lever {
+            left: 10px;
+        }
+        #submit {
+            right: 10px;
+        }
+        #red_fade {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+
+            background-color: rgba(180, 0, 0, 0);
+            pointer-events: none;
+            z-index: 14;
+
+            transition: background-color 1s ease;
+        }
+        .shake {
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0% { transform: scaleX(-.14) scaleY(.15) translateX(0); }
+            25% { transform: scaleX(-.14) scaleY(.15) translateX(-5px); }
+            50% { transform: scaleX(-.14) scaleY(.15) translateX(5px); }
+            75% { transform: scaleX(-.14) scaleY(.15) translateX(-5px); }
+            100% { transform: scaleX(-.14) scaleY(.15) translateX(0); }
+        }
+        .switched-move {
+            animation: switched-move 1s ease;
+        }
+        .straight-move {
+            animation: straight-move 1s ease;
+        }
+        @keyframes switched-move {
+            0% { top: -38%; left: -55%; }
+            30% { top: -38%; left: -25%; }
+            45% { top: -36%; left: -25%; }
+            50% { top: -25%; left: -25%; }
+            100% { top: -25%; left: 20%; }
+        }
+        @keyframes straight-move {
+            0% { top: -38%; left: -55%; }
+            100% { top: -38%; left: 20%; }
+        }
+        #hitpoint_blood {
+            display: none;
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            background-image: url('hitpointblood.gif');
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 16;
+            transform: translate(-50%, -50%);
+        }
+        #blood_animation {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('screencoverblood.gif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: 2; /* MAKE SURE IT IS ABOVE EVERYTHING */
+        }
+        .fade-out {
+            animation: fadeOut 1s ease-out forwards !important;
+        }
+        @keyframes fadeOut {
+            from { opacity: 1 !important; }
+            to { opacity: 0 !important; }
+        }
+        
     </style>
 </head>
 
 <body>
-    <div id='main'>
-        <div id='trolley_div'>
-            <div id='rails'>
-            </div>
-            <div id='railsplit'>
-            </div>
-            <div id='bottomrails'>
-            </div>
-            <div id='train'>
-            </div>
-            <div id='bloodytrain'>
-            </div>
-
-        </div>
+    <div id="intro">
+        <h1>Trolley Problem Game</h1>
+        <button id="start">Start</button>
     </div>
+    <div id="game" style="display:none;">
+        <div id="dilemma"></div>
+        <div id='main'>
+            <div id='trolley_div'>
+                <div id='rails'>
+                </div>
+                <div id='railsplit'>
+                </div>
+                <div id='bottomrails'>
+                </div>
+                <div id='train'>
+                </div>
+                <img id="lever_img" src="lever.png" style="position:absolute; left:35%; top:34%; width:80px; height:80px; z-index:5;">
+                <img id="left_char" src="pixartman.png" style="position:absolute; top:40%; left:60%; width:50px; height:50px; z-index:3;">
+                <img id="right_char" src="pixartman.png" style="position:absolute; top:52%; left:60%; width:50px; height:50px; z-index:3;">
+                <img id="blood_left" src="blood.png" style="display:none; position:absolute; top:52%; left:0%; width:50px; height:50px; z-index:4;">
+                <img id="blood_right" src="blood.png" style="display:none; position:absolute; top:52%; left:60%; width:50px; height:50px; z-index:4;">
+            </div>
+        </div>
+        <button id="lever">Switch Lever</button>
+        <button id="submit">Submit</button>
+    </div>
+    <div id="hitpoint_blood"></div>
+    <div id="blood_animation" onclick="event.stopPropagation();"></div>
+    <div id="red_fade"></div>
+    <div id="popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:black; color:white; padding:20px; font-family:'Courier New', monospace; font-size:24px; text-align:center; z-index:20; border:3px solid red;"></div>
+    <script>
+const dilemmas = [
+    {theory: 'Utilitarianism', left: 'Baby', right: '5 Elderly people', correct: 'Save elderly people', correctSide: 'right'},
+    {theory: 'Utilitarianism', left: 'Nun', right: '4 prisoners', correct: 'Prisoners', correctSide: 'right'},
+    {theory: 'Deontology', left: '', right: '', correct: '', correctSide: 'left'},
+    {theory: 'Deontology', left: '4 People', right: '2 People and 2 Babies', correct: 'Do not choose because some choices are morally forbidden', correctSide: 'left'},
+    {theory: 'Virtue Ethics', left: 'Person', right: 'Criminal', correct: 'Person', correctSide: 'left'},
+    {theory: 'Social Contract Theory', left: 'Criminal', right: 'Baby', correct: 'Save the baby', correctSide: 'right'},
+    {theory: 'Divine Command Theory', left: '40 babies', right: 'No one', correct: 'Kill the kids', correctSide: 'left'},
+    {theory: 'Ethical Egoism', left: 'Man with money and 3 men', right: 'Man with nothing', correct: 'Man with money', correctSide: 'left'},
+    {theory: 'Ethical Egoism (You are a criminal for this one)', left: '2 Cops', right: 'Criminal', correct: '2 Cops', correctSide: 'right'},
+    {theory: 'Care Ethics', left: '1 baby', right: '4 men', correct: 'Baby', correctSide: 'left'},
+    {theory: 'Care Ethics', left: '1 disabled kid', right: '4 women', correct: 'disabled kid', correctSide: 'left'},
+    {theory: 'Natural Law Theory', left: '1 pregnant prisoner', right: '1 man', correct: 'Save the pregnant prisoner', correctSide: 'left'}
+];
+
+let currentDilemma = Math.floor(Math.random() * dilemmas.length);
+let switched = false;
+let bloodySwitchTimeSwitched = 600;
+let bloodySwitchTimeStraight = 300;
+let bloodSplatterTime = 500;
+
+document.getElementById('start').addEventListener('click', () => {
+    document.getElementById('intro').style.display = 'none';
+    document.getElementById('game').style.display = 'block';
+    displayDilemma();
+});
+
+function displayDilemma() {
+    const d = dilemmas[currentDilemma];
+    document.getElementById('dilemma').innerHTML = `Theory: ${d.theory}<br>Left: ${d.left}<br>Right: ${d.right}`;
+}
+
+document.getElementById('lever').addEventListener('click', () => {
+    switched = !switched;
+    const leverImg = document.getElementById('lever_img');
+    leverImg.src = switched ? 'leverdown.png' : 'lever.png';
+});
+
+document.getElementById('submit').addEventListener('click', () => {
+    document.getElementById('lever').disabled = true;
+    document.getElementById('submit').disabled = true;
+    const train = document.getElementById('train');
+    const hitpointBlood = document.getElementById('hitpoint_blood');
+    const bloodAnim = document.getElementById('blood_animation');
+    const redFade = document.getElementById('red_fade');
+
+    train.classList.add('shake');
+
+    setTimeout(() => {
+        train.classList.remove('shake');
+
+        // Move train
+        train.classList.add(switched ? 'switched-move' : 'straight-move');
+
+        // Switch train to bloody version
+        setTimeout(() => {
+            train.style.backgroundImage = "url('bloodytrain.png')";
+        }, switched ? bloodySwitchTimeSwitched : bloodySwitchTimeStraight);
+
+        // Blood hit and full-screen blood
+        setTimeout(() => {
+            // Show hitpoint blood and mark character dead
+            if (switched) {
+                document.getElementById('right_char').src = 'deadguy.png';
+                hitpointBlood.style.left = '60%';
+                hitpointBlood.style.top = '52%';
+            } else {
+                document.getElementById('left_char').src = 'deadguy.png';
+                hitpointBlood.style.left = '60%';
+                hitpointBlood.style.top = '40%';
+            }
+            hitpointBlood.style.display = 'block';
+
+            // Full-screen blood animation
+            redFade.style.backgroundColor = "rgba(180, 0, 0, 0.7)";
+            bloodAnim.style.display = 'block';
+
+            // Force GIF to restart from beginning
+            bloodAnim.style.backgroundImage = "url('screencoverblood.gif?" + Date.now() + "')";
+
+            // Hide blood after 3 seconds
+            setTimeout(() => {
+                redFade.style.backgroundColor = "rgba(180, 0, 0, 0)";
+                bloodAnim.style.display = 'none';
+                hitpointBlood.style.display = 'none';
+            }, 3100);
+
+        }, bloodSplatterTime);
+
+        // Reset train position and show result
+        setTimeout(() => {
+            train.classList.remove('switched-move', 'straight-move');
+            train.style.top = switched ? '-25%' : '-38%';
+            train.style.left = '20%';
+            const correctSide = dilemmas[currentDilemma].correctSide;
+            const chosenSide = switched ? 'right' : 'left';
+            const won = chosenSide === correctSide;
+            document.getElementById('popup').textContent = won ? 'You won!' : 'You lost!';
+            document.getElementById('popup').style.display = 'block';
+            document.addEventListener('click', resetGame, {once: true});
+        }, 1000);
+
+    }, 500);
+});
+
+function resetGame() {
+    document.getElementById('popup').style.display = 'none';
+    const train = document.getElementById('train');
+    train.style.top = '-38%';
+    train.style.left = '-55%';
+    train.style.backgroundImage = "url('train.png')";
+    document.getElementById('lever').disabled = false;
+    document.getElementById('submit').disabled = false;
+    switched = false;
+    document.getElementById('lever_img').src = 'lever.png';
+    // Reset characters
+    document.getElementById('left_char').src = 'pixartman.png';
+    document.getElementById('right_char').src = 'pixartman.png';
+    document.getElementById('blood_left').style.display = 'none';
+    document.getElementById('blood_right').style.display = 'none';
+    document.getElementById('hitpoint_blood').style.display = 'none';
+    currentDilemma = Math.floor(Math.random() * dilemmas.length);
+    displayDilemma();
+}
+</script>
 </body>
 
 </html>

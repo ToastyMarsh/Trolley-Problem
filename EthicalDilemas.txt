@@ -1,0 +1,61 @@
+Theory: Utilitarianism
+Left: Baby
+Right: 5 Elderly people
+Correct: Save elderly people
+
+Theory: Utilitarianism
+Left: Nun 
+Right: 4 prisoners
+Correct: Prisoners
+
+Theory: Deontology
+Left: 
+Right: 
+Correct: 
+
+Theory: Deontology
+Left: 4 People
+Right: 2 People and 2 Babies
+Correct: Do not choose because some choices are morally forbidden
+
+
+Theory: Virtue Ethics
+Left: Person
+Right: Criminal
+Correct: Person
+
+Theory: Social Contract Theory
+Left: Criminal
+Right: Baby
+Correct: Save the baby
+
+Theory: Divine Command Theory
+Above: A god telling you to sacrifice children
+Left: 40 babies
+Right: No one
+Correct: Kill the kids
+
+Theory: Ethical Egoism
+Left: Man with money and 3 men
+Right: Man with nothing
+Correct: Man with money 
+
+Theory: Ethical Egoism (You are a criminal for this one)
+Left: 2 Cops
+Right: Criminal
+Correct: 2 Cops
+
+Theory: Care Ethics
+Left: 1 baby
+Right: 4 men
+Correct: Baby
+
+Theory: Care Ethics
+Left: 1 disabled kid
+Right: 4 women
+Correct: disabled kid
+
+Theory: Natural Law Theory
+Left: 1 pregnant prisoner
+Right: 1 man
+Correct: Save the pregnant prisoner
