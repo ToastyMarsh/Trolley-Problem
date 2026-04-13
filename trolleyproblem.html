@@ -234,21 +234,21 @@
     <div id="hitpoint_blood"></div>
     <div id="blood_animation" onclick="event.stopPropagation();"></div>
     <div id="red_fade"></div>
-    <div id="popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:black; color:white; padding:20px; font-family:'Courier New', monospace; font-size:24px; text-align:center; z-index:20; border:3px solid red;"></div>
+    <div id="popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:black; color:white; padding:20px; font-family:'Courier New', monospace; font-size:24px; text-align:center; z-index:20; border:3px solid red; width:600px; max-width:90%;"></div>
     <script>
 const dilemmas = [
-    {theory: 'Utilitarianism', left: 'Baby', right: '5 Elderly people', correct: 'Save elderly people', correctSide: 'right'},
-    {theory: 'Utilitarianism', left: 'Nun', right: '4 prisoners', correct: 'Prisoners', correctSide: 'right'},
-    {theory: 'Deontology', left: '', right: '', correct: '', correctSide: 'left'},
-    {theory: 'Deontology', left: '4 People', right: '2 People and 2 Babies', correct: 'Do not choose because some choices are morally forbidden', correctSide: 'left'},
-    {theory: 'Virtue Ethics', left: 'Person', right: 'Criminal', correct: 'Person', correctSide: 'left'},
-    {theory: 'Social Contract Theory', left: 'Criminal', right: 'Baby', correct: 'Save the baby', correctSide: 'right'},
-    {theory: 'Divine Command Theory', left: '40 babies', right: 'No one', correct: 'Kill the kids', correctSide: 'left'},
-    {theory: 'Ethical Egoism', left: 'Man with money and 3 men', right: 'Man with nothing', correct: 'Man with money', correctSide: 'left'},
-    {theory: 'Ethical Egoism (You are a criminal for this one)', left: '2 Cops', right: 'Criminal', correct: '2 Cops', correctSide: 'right'},
-    {theory: 'Care Ethics', left: '1 baby', right: '4 men', correct: 'Baby', correctSide: 'left'},
-    {theory: 'Care Ethics', left: '1 disabled kid', right: '4 women', correct: 'disabled kid', correctSide: 'left'},
-    {theory: 'Natural Law Theory', left: '1 pregnant prisoner', right: '1 man', correct: 'Save the pregnant prisoner', correctSide: 'left'}
+    {theory: 'Utilitarianism', left: 'Baby', right: '5 Elderly people', correct: 'Save elderly people', correctSide: 'right', explanation: 'Pull it. The numbers say 5 is better than 1, so congratulations, you just did murder with math.'},
+    {theory: 'Utilitarianism', left: 'Nun', right: '4 prisoners', correct: 'Prisoners', correctSide: 'right', explanation: 'Pull it. Four bodies saved beats one nun, because this logic runs on quantity, not holiness points.'},
+    {theory: 'Deontology', left: '', right: '', correct: '', correctSide: 'left', explanation: 'Do not pull it. The whole point here is that once you touch the lever, the blood gets upgraded to premium intentional blood.'},
+    {theory: 'Deontology', left: '4 People', right: '2 People and 2 Babies', correct: 'Do not choose because some choices are morally forbidden', correctSide: 'left', explanation: 'Do not pull it. Some actions are still rotten even when the outcome looks shinier, so keep your hands clean-ish.'},
+    {theory: 'Virtue Ethics', left: 'Person', right: 'Criminal', correct: 'Person', correctSide: 'left', explanation: 'Do not pull it. The idea is to act like a good person, not like a greasy little rail accountant.'},
+    {theory: 'Social Contract Theory', left: 'Criminal', right: 'Baby', correct: 'Save the baby', correctSide: 'right', explanation: 'Pull it. Society kind of falls apart when we start choosing the criminal over the baby, which is generally bad for civilization.'},
+    {theory: 'Divine Command Theory', left: '40 babies', right: 'No one', correct: 'Kill the kids', correctSide: 'left', explanation: 'Do not pull it. This one says your personal horror is irrelevant and obedience comes first, which is exactly why this scenario feels so cursed.'},
+    {theory: 'Ethical Egoism', left: 'Man with money and 3 men', right: 'Man with nothing', correct: 'Man with money', correctSide: 'left', explanation: 'Do not pull it. If the richer side helps you more, then morality suddenly becomes a very selfish business decision.'},
+    {theory: 'Ethical Egoism (You are a criminal for this one)', left: '2 Cops', right: 'Criminal', correct: '2 Cops', correctSide: 'right', explanation: 'Pull it. You save yourself, the cops get flattened, and apparently that still counts as “ethical” in this lane.'},
+    {theory: 'Care Ethics', left: '1 baby', right: '4 men', correct: 'Baby', correctSide: 'left', explanation: 'Do not pull it. The baby is the most helpless one here, so the lever can sit there and mind its own business.'},
+    {theory: 'Care Ethics', left: '1 disabled kid', right: '4 women', correct: 'disabled kid', correctSide: 'left', explanation: 'Do not pull it. The focus is who needs protection most, not who gives you the bigger headcount for your grim little spreadsheet.'},
+    {theory: 'Natural Law Theory', left: '1 pregnant prisoner', right: '1 man', correct: 'Save the pregnant prisoner', correctSide: 'left', explanation: 'Do not pull it. One side has two lives in the theological bundle deal, so the lever stays untouched.'}
 ];
 
 let currentDilemma = Math.floor(Math.random() * dilemmas.length);
@@ -330,10 +330,15 @@ document.getElementById('submit').addEventListener('click', () => {
             train.classList.remove('switched-move', 'straight-move');
             train.style.top = switched ? '-25%' : '-38%';
             train.style.left = '20%';
-            const correctSide = dilemmas[currentDilemma].correctSide;
+            const d = dilemmas[currentDilemma];
+            const correctSide = d.correctSide;
             const chosenSide = switched ? 'right' : 'left';
             const won = chosenSide === correctSide;
-            document.getElementById('popup').textContent = won ? 'You won!' : 'You lost!';
+            document.getElementById('popup').innerHTML =
+                (won ? 'You won!<br><br>' : 'You lost!<br><br>') +
+                'Theory: ' + d.theory + '<br>' +
+                d.explanation + '<br><br>' +
+                '<span style="font-size:16px;">Click anywhere to continue</span>';
             document.getElementById('popup').style.display = 'block';
             document.addEventListener('click', resetGame, {once: true});
         }, 1000);
