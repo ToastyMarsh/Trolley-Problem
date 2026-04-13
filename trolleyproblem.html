@@ -1,209 +1,69 @@
+<!DOCTYPE html>
 <html>
-
 <head>
     <style>
-
-        :root, html, body {
-            margin: 0;
-            padding: 0;
+        :root, html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+        * { margin: 0; padding: 0; border: 0; box-sizing: border-box; font-family: 'Courier New', monospace; font-weight: 400; font-style: normal; }
+        :root { overflow: hidden; }
+        #trolley_div { width: 1000px; height: 500px; position: relative; background-color: lightcyan; background-position: center; background-image: url("background.png"); background-size: cover; }
+        
+        #rails { position: absolute; display: flex; width: 1000px; height: 100px; background-image: url('straighttrack.png'); background-repeat: repeat-x; background-position: center; top: 40%; }
+        
+        #railsplit { position: absolute; display: flex; left: 32%; width: 180px; height: 150px; background-image: url('righttrack.png'); background-position: center; top: 35.5%; }
+        
+        #bottomrails { position: absolute; display: flex; top: 50%; left: 50%; width: 500px; height: 100px; background-image: url('straighttrack.png'); background-repeat: repeat-x; background-position-y: center; background-position-x: left; z-index: 2; }
+        #train { transform: scaleX(-.14) scaleY(.15); position: absolute; display: flex; top: -38%; left: -55%; width: 1400px; height: 800px; background-image: url('train.png'); background-position-y: center; background-position-x: left; z-index: 10; }
+        #intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: lightblue; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
+        #dilemma { position: absolute; top: 10px; left: 10px; font-size: 16px; color: black; z-index: 5; }
+        #lever, #submit { position: absolute; bottom: 10px; z-index: 5; }
+        #lever { left: 10px; }
+        #submit { right: 10px; }
+        #game {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* keeps full screen contained */
+            background-color: lightblue;
         }
-        *{
-            margin: 0;
-            padding: 0;
-            border: 0;
-            box-sizing: border-box;
-            font-family: 'Courier New', monospace;
-            font-weight: 400;
-            font-style: normal;
-            
-        }
-        :root{
-            overflow: hidden;
-        }
+
         #main {
             width: 100%;
             height: 100%;
             background-color: lightblue;
             display: flex;
             align-items: center;
-            align-content: center;
             justify-content: center;
             z-index: 4;
         }
-        #trolley_div {
-            width: 1000px;
-            height: 500px;
-            position: relative;
-            align-items: center;
-            align-content: center;
-            justify-content: center;
-            background-color: lightcyan;
-            background-position: center;
-            background-image: url("background.png");
-            background-size: cover;
-        }
-        #rails {
-            position: absolute;
-            display: flex;
-            width: 1000px;
-            height: 100px;
-            background-image: url('straighttrack.png');
-            background-repeat:repeat-x;
-            background-position: center;
-            top:40%;
-            /* background-color: blue; */
-        }
-        #railsplit {
-            position: absolute;
-            display: flex;
-            left:32%;
-            width: 180px;
-            height: 150px;
-            background-image: url('righttrack.png');
-            background-position: center;
-            background-position-y: 93%;
-            /* background-color: blue; */
-        }
-        #bottomrails {
-            position: absolute;
-            display: flex;
-            top: 50%;
-            left:50%;
-            width: 500px;
-            height: 100px;
-            background-image: url('straighttrack.png');
-            background-repeat:repeat-x;
-            background-position-y: center;
-            background-position-x: left;
-            z-index: 2;
-            /* background-color: blue; */
-        }
-        #train{
-            transform: scaleX(-.14) scaleY(.15);
-            position: absolute;
-            display: flex;
-            top: -38%;
-            left:-55%;
-            width: 1400px;
-            height: 800px;
-            background-image: url('train.png');
-            background-position-y: center;
-            background-position-x: left;
-            z-index: 10;
-            /* background-color: blue; */
-        }
-        #intro {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: lightblue;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-        }
-        #dilemma {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 16px;
-            color: black;
-            z-index: 5;
-        }
-        #lever, #submit {
-            position: absolute;
-            bottom: 10px;
-            z-index: 5;
-        }
-        #lever {
-            left: 10px;
-        }
-        #submit {
-            right: 10px;
-        }
-        #red_fade {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
 
-            background-color: rgba(180, 0, 0, 0);
-            pointer-events: none;
-            z-index: 14;
-
-            transition: background-color 1s ease;
-        }
-        .shake {
-            animation: shake 0.5s;
-        }
+        #red_fade { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(180,0,0,0); pointer-events: none; z-index: 14; transition: background-color 1s ease; }
+        .shake { animation: shake 0.5s; }
         @keyframes shake {
-            0% { transform: scaleX(-.14) scaleY(.15) translateX(0); }
-            25% { transform: scaleX(-.14) scaleY(.15) translateX(-5px); }
-            50% { transform: scaleX(-.14) scaleY(.15) translateX(5px); }
-            75% { transform: scaleX(-.14) scaleY(.15) translateX(-5px); }
+            0%   { transform: scaleX(-.14) scaleY(.15) translateX(0); }
+            25%  { transform: scaleX(-.14) scaleY(.15) translateX(-5px); }
+            50%  { transform: scaleX(-.14) scaleY(.15) translateX(5px); }
+            75%  { transform: scaleX(-.14) scaleY(.15) translateX(-5px); }
             100% { transform: scaleX(-.14) scaleY(.15) translateX(0); }
         }
-        .switched-move {
-            animation: switched-move 1s ease;
-        }
-        .straight-move {
-            animation: straight-move 1s ease;
-        }
+        .switched-move { animation: switched-move 1s ease; }
+        .straight-move { animation: straight-move 1s ease; }
         @keyframes switched-move {
-            0% { top: -38%; left: -55%; }
-            30% { top: -38%; left: -25%; }
-            45% { top: -36%; left: -25%; }
-            50% { top: -25%; left: -25%; }
+            0%   { top: -38%; left: -55%; }
+            30%  { top: -38%; left: -25%; }
+            45%  { top: -36%; left: -25%; }
+            50%  { top: -25%; left: -25%; }
             100% { top: -25%; left: 20%; }
         }
         @keyframes straight-move {
-            0% { top: -38%; left: -55%; }
+            0%   { top: -38%; left: -55%; }
             100% { top: -38%; left: 20%; }
         }
-        #hitpoint_blood {
-            display: none;
-            position: fixed;
-            width: 100px;
-            height: 100px;
-            background-image: url('hitpointblood.gif');
-            background-size: contain;
-            background-repeat: no-repeat;
-            z-index: 16;
-            transform: translate(-50%, -50%);
-        }
-        #blood_animation {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('screencoverblood.gif');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            pointer-events: none;
-            z-index: 2; /* MAKE SURE IT IS ABOVE EVERYTHING */
-        }
-        .fade-out {
-            animation: fadeOut 1s ease-out forwards !important;
-        }
-        @keyframes fadeOut {
-            from { opacity: 1 !important; }
-            to { opacity: 0 !important; }
-        }
-        
+        #hitpoint_blood { display: none; position: fixed; width: 100px; height: 100px; background-image: url('hitpointblood.gif'); background-size: contain; background-repeat: no-repeat; z-index: 16; transform: translate(-50%, -50%); }
+        #blood_animation { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('screencoverblood.gif'); background-size: cover; background-position: center; background-repeat: no-repeat; pointer-events: none; z-index: 2; }
+        .char-img { position: absolute; z-index: 3; }
     </style>
 </head>
-
 <body>
     <div id="intro">
         <h1>Trolley Problem Game</h1>
@@ -213,19 +73,12 @@
         <div id="dilemma"></div>
         <div id='main'>
             <div id='trolley_div'>
-                <div id='rails'>
-                </div>
-                <div id='railsplit'>
-                </div>
-                <div id='bottomrails'>
-                </div>
-                <div id='train'>
-                </div>
+                <div id='rails'></div>
+                <div id='railsplit'></div>
+                <div id='bottomrails'></div>
+                <div id='train'></div>
                 <img id="lever_img" src="lever.png" style="position:absolute; left:35%; top:34%; width:80px; height:80px; z-index:5;">
-                <img id="left_char" src="pixartman.png" style="position:absolute; top:40%; left:60%; width:50px; height:50px; z-index:3;">
-                <img id="right_char" src="pixartman.png" style="position:absolute; top:52%; left:60%; width:50px; height:50px; z-index:3;">
-                <img id="blood_left" src="blood.png" style="display:none; position:absolute; top:52%; left:0%; width:50px; height:50px; z-index:4;">
-                <img id="blood_right" src="blood.png" style="display:none; position:absolute; top:52%; left:60%; width:50px; height:50px; z-index:4;">
+                <!-- Characters injected by JS -->
             </div>
         </div>
         <button id="lever">Switch Lever</button>
@@ -234,138 +87,270 @@
     <div id="hitpoint_blood"></div>
     <div id="blood_animation" onclick="event.stopPropagation();"></div>
     <div id="red_fade"></div>
-    <div id="popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:black; color:white; padding:20px; font-family:'Courier New', monospace; font-size:24px; text-align:center; z-index:20; border:3px solid red; width:600px; max-width:90%;"></div>
-    <script>
+    <div id="popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:black; color:white; padding:20px; font-family:'Courier New',monospace; font-size:24px; text-align:center; z-index:20; border:3px solid red; width:600px; max-width:90%;"></div>
+
+<script>
+// ─── CHARACTER SPRITE CONFIG ─────────────────────────────────────────────────
+// Each entry: { alive: 'filename.png', dead: 'filename.png', scale: [w, h] }
+// scale defaults to [50, 50] if omitted. Adjust per-sprite as needed.
+const sprites = {
+    baby:          { alive: 'baby.png',       dead: 'babyRunover.png', scale: [50, 50] },
+    old:                { alive: 'old.png',             dead: 'deadold.png',          scale: [50, 50] },
+    nun:                { alive: 'nun.png',             dead: 'deadnun.png',          scale: [50, 50] },
+    prisoner:           { alive: 'prisoner.png',        dead: 'deadprisoner.png',     scale: [50, 50] },
+    cop:                { alive: 'cop.png',             dead: 'deadcop.png',          scale: [50, 50] },
+    wheelchair:         { alive: 'wheelchair.png',      dead: 'deadWheelchair.png',   scale: [55, 55] },
+    // fallback generic person
+    person:             { alive: 'pixartman.png',       dead: 'deadman.png',          scale: [50, 50] },
+};
+
+// ─── DILEMMAS ─────────────────────────────────────────────────────────────────
+// leftSprites / rightSprites: array of sprite keys — one img per person shown
+// Positions are auto-spaced horizontally around left:60% / top:40% (upper) and top:52% (lower)
 const dilemmas = [
-    {theory: 'Utilitarianism', left: 'Baby', right: '5 Elderly people', correct: 'Save elderly people', correctSide: 'right', explanation: 'Pull it. The numbers say 5 is better than 1, so congratulations, you just did murder with math.'},
-    {theory: 'Utilitarianism', left: 'Nun', right: '4 prisoners', correct: 'Prisoners', correctSide: 'right', explanation: 'Pull it. Four bodies saved beats one nun, because this logic runs on quantity, not holiness points.'},
-    {theory: 'Deontology', left: '', right: '', correct: '', correctSide: 'left', explanation: 'Do not pull it. The whole point here is that once you touch the lever, the blood gets upgraded to premium intentional blood.'},
-    {theory: 'Deontology', left: '4 People', right: '2 People and 2 Babies', correct: 'Do not choose because some choices are morally forbidden', correctSide: 'left', explanation: 'Do not pull it. Some actions are still rotten even when the outcome looks shinier, so keep your hands clean-ish.'},
-    {theory: 'Virtue Ethics', left: 'Person', right: 'Criminal', correct: 'Person', correctSide: 'left', explanation: 'Do not pull it. The idea is to act like a good person, not like a greasy little rail accountant.'},
-    {theory: 'Social Contract Theory', left: 'Criminal', right: 'Baby', correct: 'Save the baby', correctSide: 'right', explanation: 'Pull it. Society kind of falls apart when we start choosing the criminal over the baby, which is generally bad for civilization.'},
-    {theory: 'Divine Command Theory', left: '40 babies', right: 'No one', correct: 'Kill the kids', correctSide: 'left', explanation: 'Do not pull it. This one says your personal horror is irrelevant and obedience comes first, which is exactly why this scenario feels so cursed.'},
-    {theory: 'Ethical Egoism', left: 'Man with money and 3 men', right: 'Man with nothing', correct: 'Man with money', correctSide: 'left', explanation: 'Do not pull it. If the richer side helps you more, then morality suddenly becomes a very selfish business decision.'},
-    {theory: 'Ethical Egoism (You are a criminal for this one)', left: '2 Cops', right: 'Criminal', correct: '2 Cops', correctSide: 'right', explanation: 'Pull it. You save yourself, the cops get flattened, and apparently that still counts as “ethical” in this lane.'},
-    {theory: 'Care Ethics', left: '1 baby', right: '4 men', correct: 'Baby', correctSide: 'left', explanation: 'Do not pull it. The baby is the most helpless one here, so the lever can sit there and mind its own business.'},
-    {theory: 'Care Ethics', left: '1 disabled kid', right: '4 women', correct: 'disabled kid', correctSide: 'left', explanation: 'Do not pull it. The focus is who needs protection most, not who gives you the bigger headcount for your grim little spreadsheet.'},
-    {theory: 'Natural Law Theory', left: '1 pregnant prisoner', right: '1 man', correct: 'Save the pregnant prisoner', correctSide: 'left', explanation: 'Do not pull it. One side has two lives in the theological bundle deal, so the lever stays untouched.'}
+    {
+        theory: 'Utilitarianism',
+        left: 'baby', leftSprites: ['baby'],
+        right: '5 Elderly people', rightSprites: ['old','old','old','old','old'],
+        correctSide: 'right',
+        explanation: 'Pull it. The numbers say 5 is better than 1, so congratulations, you just did murder with math.'
+    },
+    {
+        theory: 'Utilitarianism',
+        left: 'Nun', leftSprites: ['nun'],
+        right: '4 Prisoners', rightSprites: ['prisoner','prisoner','prisoner','prisoner'],
+        correctSide: 'right',
+        explanation: 'Pull it. Four bodies saved beats one nun, because this logic runs on quantity, not holiness points.'
+    },
+    {
+        theory: 'Deontology',
+        left: '1 Person', leftSprites: ['person'],
+        right: '1 Person', rightSprites: ['person'],
+        correctSide: 'left',
+        explanation: 'Do not pull it. The whole point here is that once you touch the lever, the blood gets upgraded to premium intentional blood.'
+    },
+    {
+        theory: 'Deontology',
+        left: '4 People', leftSprites: ['person','person','person','person'],
+        right: '2 People and 2 Babies', rightSprites: ['person','person','baby','baby'],
+        correctSide: 'left',
+        explanation: 'Do not pull it. Some actions are still rotten even when the outcome looks shinier, so keep your hands clean-ish.'
+    },
+    {
+        theory: 'Virtue Ethics',
+        left: 'Person', leftSprites: ['person'],
+        right: 'Criminal', rightSprites: ['prisoner'],
+        correctSide: 'left',
+        explanation: 'Do not pull it. The idea is to act like a good person, not like a greasy little rail accountant.'
+    },
+    {
+        theory: 'Social Contract Theory',
+        left: 'Criminal', leftSprites: ['prisoner'],
+        right: 'baby', rightSprites: ['baby'],
+        correctSide: 'right',
+        explanation: 'Pull it. Society kind of falls apart when we start choosing the criminal over the baby, which is generally bad for civilization.'
+    },
+    {
+        theory: 'Divine Command Theory',
+        left: '40 Babies', leftSprites: ['baby','baby','baby','baby','baby'],
+        right: 'No one', rightSprites: [],
+        correctSide: 'left',
+        explanation: 'Do not pull it. This one says your personal horror is irrelevant and obedience comes first, which is exactly why this scenario feels so cursed.'
+    },
+    {
+        theory: 'Ethical Egoism',
+        left: 'Man with money and 3 men', leftSprites: ['person','person','person','person'],
+        right: 'Man with nothing', rightSprites: ['person'],
+        correctSide: 'left',
+        explanation: 'Do not pull it. If the richer side helps you more, then morality suddenly becomes a very selfish business decision.'
+    },
+    {
+        theory: 'Ethical Egoism (You are a criminal)',
+        left: '2 Cops', leftSprites: ['cop','cop'],
+        right: 'Criminal (you)', rightSprites: ['prisoner'],
+        correctSide: 'right',
+        explanation: 'Pull it. You save yourself, the cops get flattened, and apparently that still counts as "ethical" in this lane.'
+    },
+    {
+        theory: 'Care Ethics',
+        left: '1 baby', leftSprites: ['baby'],
+        right: '4 Men', rightSprites: ['person','person','person','person'],
+        correctSide: 'left',
+        explanation: 'Do not pull it. The baby is the most helpless one here, so the lever can sit there and mind its own business.'
+    },
+    {
+        theory: 'Care Ethics',
+        left: '1 Disabled kid', leftSprites: ['wheelchair'],
+        right: '4 Women', rightSprites: ['person','person','person','person'],
+        correctSide: 'left',
+        explanation: 'Do not pull it. The focus is who needs protection most, not who gives you the bigger headcount for your grim little spreadsheet.'
+    },
+    {
+        theory: 'Natural Law Theory',
+        left: '1 Pregnant prisoner', leftSprites: ['prisoner'],
+        right: '1 Man', rightSprites: ['person'],
+        correctSide: 'left',
+        explanation: 'Do not pull it. One side has two lives in the theological bundle deal, so the lever stays untouched.'
+    }
 ];
 
+// ─── STATE ────────────────────────────────────────────────────────────────────
 let currentDilemma = Math.floor(Math.random() * dilemmas.length);
 let switched = false;
-let bloodySwitchTimeSwitched = 600;
-let bloodySwitchTimeStraight = 300;
-let bloodSplatterTime = 500;
+const bloodySwitchTimeSwitched = 600;
+const bloodySwitchTimeStraight = 300;
+const bloodSplatterTime = 500;
 
+// Tracks spawned character <img> elements: { left: [...], right: [...] }
+let charEls = { left: [], right: [] };
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function clearChars() {
+    [...charEls.left, ...charEls.right].forEach(el => el.remove());
+    charEls = { left: [], right: [] };
+}
+
+function spawnChars(dilemma) {
+    const trolleyDiv = document.getElementById('trolley_div');
+
+    // Upper track (left side of dilemma) — top ~40%, clustered around left:60%
+    dilemma.leftSprites.forEach((key, i) => {
+        const sp = sprites[key] || sprites.person;
+        const el = document.createElement('img');
+        el.src = sp.alive;
+        el.className = 'char-img';
+        el.style.top = '40%';
+        el.style.left = (60 + i * 5) + '%';
+        el.style.width  = sp.scale[0] + 'px';
+        el.style.height = sp.scale[1] + 'px';
+        el.dataset.spriteKey = key;
+        el.dataset.side = 'left';
+        trolleyDiv.appendChild(el);
+        charEls.left.push(el);
+    });
+
+    // Lower track (right side of dilemma) — top ~52%
+    dilemma.rightSprites.forEach((key, i) => {
+        const sp = sprites[key] || sprites.person;
+        const el = document.createElement('img');
+        el.src = sp.alive;
+        el.className = 'char-img';
+        el.style.top = '52%';
+        el.style.left = (60 + i * 5) + '%';
+        el.style.width  = sp.scale[0] + 'px';
+        el.style.height = sp.scale[1] + 'px';
+        el.dataset.spriteKey = key;
+        el.dataset.side = 'right';
+        trolleyDiv.appendChild(el);
+        charEls.right.push(el);
+    });
+}
+
+function killChars(side) {
+    charEls[side].forEach(el => {
+        const sp = sprites[el.dataset.spriteKey] || sprites.person;
+        el.src = sp.dead;
+    });
+}
+
+// ─── DISPLAY DILEMMA ─────────────────────────────────────────────────────────
+function displayDilemma() {
+    const d = dilemmas[currentDilemma];
+    document.getElementById('dilemma').innerHTML =
+        `Theory: ${d.theory}<br>Left track: ${d.left}<br>Right track: ${d.right}`;
+    clearChars();
+    spawnChars(d);
+}
+
+// ─── EVENTS ──────────────────────────────────────────────────────────────────
 document.getElementById('start').addEventListener('click', () => {
     document.getElementById('intro').style.display = 'none';
     document.getElementById('game').style.display = 'block';
     displayDilemma();
 });
 
-function displayDilemma() {
-    const d = dilemmas[currentDilemma];
-    document.getElementById('dilemma').innerHTML = `Theory: ${d.theory}<br>Left: ${d.left}<br>Right: ${d.right}`;
-}
-
 document.getElementById('lever').addEventListener('click', () => {
     switched = !switched;
-    const leverImg = document.getElementById('lever_img');
-    leverImg.src = switched ? 'leverdown.png' : 'lever.png';
+    document.getElementById('lever_img').src = switched ? 'leverdown.png' : 'lever.png';
 });
 
 document.getElementById('submit').addEventListener('click', () => {
     document.getElementById('lever').disabled = true;
     document.getElementById('submit').disabled = true;
-    const train = document.getElementById('train');
+
+    const train        = document.getElementById('train');
     const hitpointBlood = document.getElementById('hitpoint_blood');
-    const bloodAnim = document.getElementById('blood_animation');
-    const redFade = document.getElementById('red_fade');
+    const bloodAnim    = document.getElementById('blood_animation');
+    const redFade      = document.getElementById('red_fade');
 
     train.classList.add('shake');
 
     setTimeout(() => {
         train.classList.remove('shake');
-
-        // Move train
         train.classList.add(switched ? 'switched-move' : 'straight-move');
 
-        // Switch train to bloody version
+        // Bloody train
         setTimeout(() => {
             train.style.backgroundImage = "url('bloodytrain.png')";
         }, switched ? bloodySwitchTimeSwitched : bloodySwitchTimeStraight);
 
-        // Blood hit and full-screen blood
+        // Blood hit
         setTimeout(() => {
-            // Show hitpoint blood and mark character dead
-            if (switched) {
-                document.getElementById('right_char').src = 'deadguy.png';
-                hitpointBlood.style.left = '60%';
-                hitpointBlood.style.top = '52%';
-            } else {
-                document.getElementById('left_char').src = 'deadguy.png';
-                hitpointBlood.style.left = '60%';
-                hitpointBlood.style.top = '40%';
-            }
+            const hitSide = switched ? 'right' : 'left';
+            killChars(hitSide);
+
+            hitpointBlood.style.left = '60%';
+            hitpointBlood.style.top  = switched ? '52%' : '40%';
             hitpointBlood.style.display = 'block';
 
-            // Full-screen blood animation
-            redFade.style.backgroundColor = "rgba(180, 0, 0, 0.7)";
+            redFade.style.backgroundColor = "rgba(180,0,0,0.7)";
             bloodAnim.style.display = 'block';
-
-            // Force GIF to restart from beginning
             bloodAnim.style.backgroundImage = "url('screencoverblood.gif?" + Date.now() + "')";
 
-            // Hide blood after 3 seconds
             setTimeout(() => {
-                redFade.style.backgroundColor = "rgba(180, 0, 0, 0)";
+                redFade.style.backgroundColor = "rgba(180,0,0,0)";
                 bloodAnim.style.display = 'none';
                 hitpointBlood.style.display = 'none';
             }, 3100);
 
         }, bloodSplatterTime);
 
-        // Reset train position and show result
+        // Result popup
         setTimeout(() => {
             train.classList.remove('switched-move', 'straight-move');
-            train.style.top = switched ? '-25%' : '-38%';
+            train.style.top  = switched ? '-25%' : '-38%';
             train.style.left = '20%';
+
             const d = dilemmas[currentDilemma];
-            const correctSide = d.correctSide;
-            const chosenSide = switched ? 'right' : 'left';
-            const won = chosenSide === correctSide;
+            const won = (switched ? 'right' : 'left') === d.correctSide;
+
             document.getElementById('popup').innerHTML =
                 (won ? 'You won!<br><br>' : 'You lost!<br><br>') +
                 'Theory: ' + d.theory + '<br>' +
                 d.explanation + '<br><br>' +
                 '<span style="font-size:16px;">Click anywhere to continue</span>';
             document.getElementById('popup').style.display = 'block';
-            document.addEventListener('click', resetGame, {once: true});
+            document.addEventListener('click', resetGame, { once: true });
         }, 1000);
 
     }, 500);
 });
 
+// ─── RESET ────────────────────────────────────────────────────────────────────
 function resetGame() {
     document.getElementById('popup').style.display = 'none';
     const train = document.getElementById('train');
-    train.style.top = '-38%';
+    train.style.top  = '-38%';
     train.style.left = '-55%';
     train.style.backgroundImage = "url('train.png')";
     document.getElementById('lever').disabled = false;
     document.getElementById('submit').disabled = false;
     switched = false;
     document.getElementById('lever_img').src = 'lever.png';
-    // Reset characters
-    document.getElementById('left_char').src = 'pixartman.png';
-    document.getElementById('right_char').src = 'pixartman.png';
-    document.getElementById('blood_left').style.display = 'none';
-    document.getElementById('blood_right').style.display = 'none';
     document.getElementById('hitpoint_blood').style.display = 'none';
     currentDilemma = Math.floor(Math.random() * dilemmas.length);
     displayDilemma();
 }
 </script>
 </body>
-
 </html>
