@@ -1,0 +1,293 @@
+:root,
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: "Courier New", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+:root {
+  overflow: hidden;
+}
+#trolley_div {
+  width: 1000px;
+  height: 500px;
+  position: relative;
+  background-color: lightcyan;
+  background-position: center;
+  background-image: url("/media/environment/background.png");
+  background-size: cover;
+}
+#rails {
+  position: absolute;
+  display: flex;
+  width: 1000px;
+  height: 100px;
+  background-image: url("/media/environment/tracks/straighttrack.png");
+  background-repeat: repeat-x;
+  background-position: center;
+  top: 40%;
+}
+#railsplit {
+  position: absolute;
+  display: flex;
+  left: 32%;
+  width: 180px;
+  height: 150px;
+  background-image: url("/media/environment/tracks/righttrack.png");
+  background-position: center;
+  top: 35.5%;
+}
+#bottomrails {
+  position: absolute;
+  display: flex;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 100px;
+  background-image: url("/media/environment/tracks/straighttrack.png");
+  background-repeat: repeat-x;
+  background-position-y: center;
+  background-position-x: left;
+  z-index: 2;
+}
+#train {
+  transform: scaleX(-0.14) scaleY(0.15);
+  position: absolute;
+  display: flex;
+  top: -38%;
+  left: -55%;
+  width: 1400px;
+  height: 800px;
+  background-image: url("/media/environment/train/train.png");
+  background-position-y: center;
+  background-position-x: left;
+  z-index: 10;
+}
+#intro {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: lightblue;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+#dilemma {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 30px;
+  color: black;
+  z-index: 5;
+}
+#lever,
+#submit {
+  position: absolute;
+  bottom: 10px;
+  z-index: 5;
+}
+#lever {
+  left: 10px;
+}
+#submit {
+  right: 10px;
+}
+#game {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: lightblue;
+}
+#main {
+  width: 100%;
+  height: 100%;
+  background-color: lightblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+}
+#red_fade {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(180, 0, 0, 0);
+  pointer-events: none;
+  z-index: 14;
+  transition: background-color 1s ease;
+}
+.shake {
+  animation: shake 0.5s;
+}
+@keyframes shake {
+  0% {
+    transform: scaleX(-0.14) scaleY(0.15) translateX(0);
+  }
+  25% {
+    transform: scaleX(-0.14) scaleY(0.15) translateX(-5px);
+  }
+  50% {
+    transform: scaleX(-0.14) scaleY(0.15) translateX(5px);
+  }
+  75% {
+    transform: scaleX(-0.14) scaleY(0.15) translateX(-5px);
+  }
+  100% {
+    transform: scaleX(-0.14) scaleY(0.15) translateX(0);
+  }
+}
+.switched-move {
+  animation: switched-move 1s ease;
+}
+.straight-move {
+  animation: straight-move 1s ease;
+}
+@keyframes switched-move {
+  0% {
+    top: -38%;
+    left: -55%;
+  }
+  30% {
+    top: -38%;
+    left: -25%;
+  }
+  45% {
+    top: -36%;
+    left: -25%;
+  }
+  50% {
+    top: -25%;
+    left: -25%;
+  }
+  100% {
+    top: -25%;
+    left: 20%;
+  }
+}
+@keyframes straight-move {
+  0% {
+    top: -38%;
+    left: -55%;
+  }
+  100% {
+    top: -38%;
+    left: 20%;
+  }
+}
+#hitpoint_blood {
+  display: none;
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  background-image: url("hitpointblood.gif");
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 16;
+  transform: translate(-50%, -50%);
+}
+#blood_animation {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("screencoverblood.gif");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 2;
+}
+.char-img {
+  position: absolute;
+  z-index: 3;
+}
+
+/* ── JESUS: fixed so he can descend from above the viewport ──── */
+#jesus-img {
+  position: fixed;
+  width: 100px;
+  height: auto;
+  z-index: 25;
+  pointer-events: none;
+  opacity: 0;
+  filter: drop-shadow(0 0 20px rgba(255, 230, 80, 1))
+    drop-shadow(0 0 8px rgba(255, 255, 255, 0.9));
+}
+#jesus-bubble {
+  position: fixed;
+  background: #fffef0;
+  border: 3px solid #c8a800;
+  border-radius: 12px;
+  padding: 10px 16px;
+  text-align: center;
+  font-family: "Palatino Linotype", Palatino, serif;
+  font-size: 14px;
+  font-style: italic;
+  color: #3a2800;
+  box-shadow: 0 4px 18px rgba(200, 168, 0, 0.4);
+  display: none;
+  z-index: 26;
+  white-space: nowrap;
+  /* transform: translateX(-50%); */
+  transform: translateY(50%);
+}
+#jesus-bubble.visible {
+  display: block;
+}
+#jesus-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+  border-top-color: #c8a800;
+}
+#jesus-bubble::before {
+  content: "";
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #fffef0;
+  z-index: 1;
+}
+#jesus-understand-btn {
+  display: block;
+  margin: 8px auto 0;
+  padding: 5px 16px;
+  background: linear-gradient(135deg, #ffe066, #c8a800);
+  border: 2px solid #8a6e00;
+  border-radius: 6px;
+  font-family: "Palatino Linotype", Palatino, serif;
+  font-size: 13px;
+  font-weight: bold;
+  color: #3a2800;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(200, 168, 0, 0.4);
+}
+#jesus-understand-btn:hover {
+  background: linear-gradient(135deg, #fff0a0, #e0b800);
+}
