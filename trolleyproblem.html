@@ -110,87 +110,99 @@ const sprites = {
 const dilemmas = [
     {
         theory: 'Utilitarianism',
-        left: 'baby', leftSprites: ['baby'],
+        left: 'Baby', leftSprites: ['baby'],
         right: '5 Elderly people', rightSprites: ['old','old','old','old','old'],
+        correct: 'Save elderly people',
         correctSide: 'right',
-        explanation: 'Pull it. The numbers say 5 is better than 1, so congratulations, you just did murder with math.'
+        explanation: 'This theory judges the choice by total consequences, so saving 5 lives is morally better than saving 1 because it produces less overall harm. It is basically morality turned into brutal arithmetic.'
     },
     {
         theory: 'Utilitarianism',
         left: 'Nun', leftSprites: ['nun'],
-        right: '4 Prisoners', rightSprites: ['prisoner','prisoner','prisoner','prisoner'],
+        right: '4 prisoners', rightSprites: ['prisoner','prisoner','prisoner','prisoner'],
+        correct: 'Prisoners',
         correctSide: 'right',
-        explanation: 'Pull it. Four bodies saved beats one nun, because this logic runs on quantity, not holiness points.'
+        explanation: 'The main idea here is maximizing total good, so 4 lives outweigh 1 regardless of who seems more noble or respectable. The theory cares about outcome, not quality.'
     },
     {
         theory: 'Deontology',
-        left: '1 Person', leftSprites: ['person'],
-        right: '1 Person', rightSprites: ['person'],
+        left: '1 person', leftSprites: ['person'],
+        right: '5 people', rightSprites: ['person','person','person','person','person'],
+        correct: 'Do not switch because directly causing harm can be forbidden',
         correctSide: 'left',
-        explanation: 'Do not pull it. The whole point here is that once you touch the lever, the blood gets upgraded to premium intentional blood.'
+        explanation: 'This theory focuses on duty and whether the act itself is morally wrong. If your action directly causes someone’s death, that can still be forbidden even when the final numbers look better.'
     },
     {
         theory: 'Deontology',
         left: '4 People', leftSprites: ['person','person','person','person'],
         right: '2 People and 2 Babies', rightSprites: ['person','person','baby','baby'],
+        correct: 'Do not choose because some choices are morally forbidden',
         correctSide: 'left',
-        explanation: 'Do not pull it. Some actions are still rotten even when the outcome looks shinier, so keep your hands clean-ish.'
+        explanation: 'The key idea is that morality is not just about getting the best result. Some actions remain wrong in themselves, so a better-looking outcome does not automatically make the choice morally acceptable.'
     },
     {
         theory: 'Virtue Ethics',
         left: 'Person', leftSprites: ['person'],
         right: 'Criminal', rightSprites: ['prisoner'],
+        correct: 'Person',
         correctSide: 'left',
-        explanation: 'Do not pull it. The idea is to act like a good person, not like a greasy little rail accountant.'
+        explanation: 'This theory asks what a good person with good character and judgment would do. The decision is based less on rules or numbers and more on acting in a way that reflects virtue rather than cold advantage.'
     },
     {
         theory: 'Social Contract Theory',
         left: 'Criminal', leftSprites: ['prisoner'],
-        right: 'baby', rightSprites: ['baby'],
+        right: 'Baby', rightSprites: ['baby'],
+        correct: 'Save the baby',
         correctSide: 'right',
-        explanation: 'Pull it. Society kind of falls apart when we start choosing the criminal over the baby, which is generally bad for civilization.'
+        explanation: 'This theory is based on the rules and protections people would agree to for society to function fairly. Protecting the innocent and vulnerable fits that logic better than protecting the person who threatens social order.'
     },
     {
         theory: 'Divine Command Theory',
-        left: '40 Babies', leftSprites: ['baby','baby','baby','baby','baby'],
+        left: '40 babies', leftSprites: ['baby','baby','baby','baby','baby'],
         right: 'No one', rightSprites: [],
+        correct: 'Kill the kids',
         correctSide: 'left',
-        explanation: 'Do not pull it. This one says your personal horror is irrelevant and obedience comes first, which is exactly why this scenario feels so cursed.'
+        explanation: 'This theory says moral authority comes from God’s command rather than human emotion or consequence counting. That is why the result can feel horrifying: obedience is treated as morally binding even when the act seems monstrous.'
     },
     {
         theory: 'Ethical Egoism',
         left: 'Man with money and 3 men', leftSprites: ['person','person','person','person'],
         right: 'Man with nothing', rightSprites: ['person'],
+        correct: 'Man with money',
         correctSide: 'left',
-        explanation: 'Do not pull it. If the richer side helps you more, then morality suddenly becomes a very selfish business decision.'
+        explanation: 'This theory says the morally right choice is the one that best serves your own interests. If one side benefits you more, that becomes the preferred outcome, which is selfishness dressed up in philosophical clothing.'
     },
     {
-        theory: 'Ethical Egoism (You are a criminal)',
+        theory: 'Ethical Egoism (You are a criminal for this one)',
         left: '2 Cops', leftSprites: ['cop','cop'],
-        right: 'Criminal (you)', rightSprites: ['prisoner'],
+        right: 'Criminal', rightSprites: ['prisoner'],
+        correct: 'Save the criminal',
         correctSide: 'right',
-        explanation: 'Pull it. You save yourself, the cops get flattened, and apparently that still counts as "ethical" in this lane.'
+        explanation: 'The reasoning here is entirely self-interested: your own welfare comes first. If you are the criminal, your survival outweighs everyone else, which is ugly but completely consistent with the theory.'
     },
     {
         theory: 'Care Ethics',
         left: '1 baby', leftSprites: ['baby'],
-        right: '4 Men', rightSprites: ['person','person','person','person'],
+        right: '4 men', rightSprites: ['person','person','person','person'],
+        correct: 'Baby',
         correctSide: 'left',
-        explanation: 'Do not pull it. The baby is the most helpless one here, so the lever can sit there and mind its own business.'
+        explanation: 'This theory focuses on vulnerability, dependency, and who most needs protection. The baby has the strongest moral claim because care matters more here than maximizing the total number saved.'
     },
     {
         theory: 'Care Ethics',
-        left: '1 Disabled kid', leftSprites: ['wheelchair'],
-        right: '4 Women', rightSprites: ['person','person','person','person'],
+        left: '1 disabled kid', leftSprites: ['wheelchair'],
+        right: '4 women', rightSprites: ['person','person','person','person'],
+        correct: 'disabled kid',
         correctSide: 'left',
-        explanation: 'Do not pull it. The focus is who needs protection most, not who gives you the bigger headcount for your grim little spreadsheet.'
+        explanation: 'The emphasis here is on responsibility toward those who are especially vulnerable and in need of support. The decision is guided by care and protection rather than by simple headcount.'
     },
     {
         theory: 'Natural Law Theory',
-        left: '1 Pregnant prisoner', leftSprites: ['prisoner'],
-        right: '1 Man', rightSprites: ['person'],
+        left: '1 pregnant prisoner', leftSprites: ['prisoner'],
+        right: '1 man', rightSprites: ['person'],
+        correct: 'Save the pregnant prisoner',
         correctSide: 'left',
-        explanation: 'Do not pull it. One side has two lives in the theological bundle deal, so the lever stays untouched.'
+        explanation: 'This theory focuses on preserving human life and the natural goods tied to life, family, and reproduction. Because more life is preserved on that side, it carries greater moral weight within this framework.'
     }
 ];
 
@@ -257,7 +269,7 @@ function killChars(side) {
 function displayDilemma() {
     const d = dilemmas[currentDilemma];
     document.getElementById('dilemma').innerHTML =
-        `Theory: ${d.theory}<br>Left track: ${d.left}<br>Right track: ${d.right}`;
+        `Theory: ${d.theory}<br>Default track: ${d.left}<br>Switched track: ${d.right}`;
     clearChars();
     spawnChars(d);
 }
@@ -326,6 +338,8 @@ document.getElementById('submit').addEventListener('click', () => {
 
             document.getElementById('popup').innerHTML =
                 (won ? 'You won!<br><br>' : 'You lost!<br><br>') +
+                'You chose to ' + (switched ? 'switch the lever' : 'leave the lever alone') + '.<br>' +
+                'This scenario expects you to ' + (d.correctSide === 'right' ? 'switch the lever' : 'leave the lever alone') + '.<br><br>' +
                 'Theory: ' + d.theory + '<br>' +
                 d.explanation + '<br><br>' +
                 '<span style="font-size:16px;">Click anywhere to continue</span>';
@@ -336,7 +350,7 @@ document.getElementById('submit').addEventListener('click', () => {
     }, 500);
 });
 
-// ─── RESET ────────────────────────────────────────────────────────────────────
+// ─── RESET 
 function resetGame() {
     document.getElementById('popup').style.display = 'none';
     const train = document.getElementById('train');
