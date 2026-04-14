@@ -470,6 +470,8 @@
         document.getElementById("intro").style.display = "none";
         document.getElementById("game").style.display = "block";
         currentDilemma = nextDilemmaIndex();
+        document.getElementById('bottomrails').style.boxShadow = switched ? 'inset 0 0 20px 5px rgba(255,0,0,0.8)' : 'none';
+        document.getElementById('rails').style.boxShadow = switched ? 'none' : 'inset 0 0 20px 5px rgba(255,0,0,0.8)';
         displayDilemma();
       });
 
@@ -478,6 +480,8 @@
         document.getElementById("lever_img").src = switched
           ? "media/environment/lever/leverdown.png"
           : "media/environment/lever/lever.png";
+          document.getElementById('bottomrails').style.boxShadow = switched ? 'inset 0 0 20px 5px rgba(255,0,0,0.8)' : 'none';
+          document.getElementById('rails').style.boxShadow = switched ? 'none' : 'inset 0 0 20px 5px rgba(255,0,0,0.8)';
       });
 
       document.getElementById("submit").addEventListener("click", () => {
@@ -577,6 +581,8 @@
         document.getElementById("lever_img").src =
           "media/environment/lever/lever.png";
         document.getElementById("hitpoint_blood").style.display = "none";
+        document.getElementById('bottomrails').style.boxShadow = switched ? 'inset 0 0 20px 5px rgba(255,0,0,0.8)' : 'none';
+        document.getElementById('rails').style.boxShadow = switched ? 'none' : 'inset 0 0 20px 5px rgba(255,0,0,0.8)';
         currentDilemma = nextDilemmaIndex();
         displayDilemma();
       }
