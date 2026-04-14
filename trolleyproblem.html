@@ -6,11 +6,8 @@
         * { margin: 0; padding: 0; border: 0; box-sizing: border-box; font-family: 'Courier New', monospace; font-weight: 400; font-style: normal; }
         :root { overflow: hidden; }
         #trolley_div { width: 1000px; height: 500px; position: relative; background-color: lightcyan; background-position: center; background-image: url("background.png"); background-size: cover; }
-        
         #rails { position: absolute; display: flex; width: 1000px; height: 100px; background-image: url('straighttrack.png'); background-repeat: repeat-x; background-position: center; top: 40%; }
-        
         #railsplit { position: absolute; display: flex; left: 32%; width: 180px; height: 150px; background-image: url('righttrack.png'); background-position: center; top: 35.5%; }
-        
         #bottomrails { position: absolute; display: flex; top: 50%; left: 50%; width: 500px; height: 100px; background-image: url('straighttrack.png'); background-repeat: repeat-x; background-position-y: center; background-position-x: left; z-index: 2; }
         #train { transform: scaleX(-.14) scaleY(.15); position: absolute; display: flex; top: -38%; left: -55%; width: 1400px; height: 800px; background-image: url('train.png'); background-position-y: center; background-position-x: left; z-index: 10; }
         #intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: lightblue; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
@@ -18,25 +15,8 @@
         #lever, #submit { position: absolute; bottom: 10px; z-index: 5; }
         #lever { left: 10px; }
         #submit { right: 10px; }
-        #game {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: lightblue;
-        }
-
-        #main {
-            width: 100%;
-            height: 100%;
-            background-color: lightblue;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 4;
-        }
-
+        #game { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: lightblue; }
+        #main { width: 100%; height: 100%; background-color: lightblue; display: flex; align-items: center; justify-content: center; z-index: 4; }
         #red_fade { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(180,0,0,0); pointer-events: none; z-index: 14; transition: background-color 1s ease; }
         .shake { animation: shake 0.5s; }
         @keyframes shake {
@@ -62,12 +42,73 @@
         #hitpoint_blood { display: none; position: fixed; width: 100px; height: 100px; background-image: url('hitpointblood.gif'); background-size: contain; background-repeat: no-repeat; z-index: 16; transform: translate(-50%, -50%); }
         #blood_animation { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('screencoverblood.gif'); background-size: cover; background-position: center; background-repeat: no-repeat; pointer-events: none; z-index: 2; }
         .char-img { position: absolute; z-index: 3; }
+
+        /* ── JESUS: fixed so he can descend from above the viewport ──── */
+        #jesus-img {
+            position: fixed;
+            width: 100px;
+            height: auto;
+            z-index: 25;
+            pointer-events: none;
+            opacity: 0;
+            filter: drop-shadow(0 0 20px rgba(255,230,80,1)) drop-shadow(0 0 8px rgba(255,255,255,0.9));
+        }
+        #jesus-bubble {
+            position: fixed;
+            background: #fffef0;
+            border: 3px solid #c8a800;
+            border-radius: 12px;
+            padding: 10px 16px;
+            text-align: center;
+            font-family: 'Palatino Linotype', Palatino, serif;
+            font-size: 14px;
+            font-style: italic;
+            color: #3a2800;
+            box-shadow: 0 4px 18px rgba(200,168,0,0.4);
+            display: none;
+            z-index: 26;
+            white-space: nowrap;
+            transform: translateX(-50%);
+        }
+        #jesus-bubble.visible { display: block; }
+        #jesus-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -14px; left: 50%;
+            transform: translateX(-50%);
+            border: 7px solid transparent;
+            border-top-color: #c8a800;
+        }
+        #jesus-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -9px; left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #fffef0;
+            z-index: 1;
+        }
+        #jesus-understand-btn {
+            display: block;
+            margin: 8px auto 0;
+            padding: 5px 16px;
+            background: linear-gradient(135deg, #ffe066, #c8a800);
+            border: 2px solid #8a6e00;
+            border-radius: 6px;
+            font-family: 'Palatino Linotype', Palatino, serif;
+            font-size: 13px;
+            font-weight: bold;
+            color: #3a2800;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(200,168,0,0.4);
+        }
+        #jesus-understand-btn:hover { background: linear-gradient(135deg, #fff0a0, #e0b800); }
     </style>
 </head>
 <body>
     <div id="intro">
         <h1>Trolley Problem Game</h1>
-        <img id="start" src="startplate.png" style="width: 150px; height: 75px"></img>
+        <img id="start" src="startplate.png" style="width: 150px; height: 75px">
     </div>
     <div id="game" style="display:none;">
         <div id="dilemma"></div>
@@ -78,11 +119,27 @@
                 <div id='bottomrails'></div>
                 <div id='train'></div>
                 <img id="lever_img" src="lever.png" style="position:absolute; left:35%; top:34%; width:80px; height:80px; z-index:5;">
+                <!-- ray beams in the sky -->
+                <svg id="jesus-rays-svg" viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
+                     style="position:absolute;top:0;left:0;width:100%;height:60%;z-index:6;opacity:0;transition:opacity 0.8s ease;pointer-events:none;">
+                    <polygon points="500,0 0,300 120,300"   fill="rgba(255,240,80,0.18)"/>
+                    <polygon points="500,0 150,300 280,300" fill="rgba(255,240,80,0.14)"/>
+                    <polygon points="500,0 340,300 460,300" fill="rgba(255,240,80,0.20)"/>
+                    <polygon points="500,0 520,300 620,300" fill="rgba(255,240,80,0.16)"/>
+                    <polygon points="500,0 680,300 800,300" fill="rgba(255,240,80,0.14)"/>
+                    <polygon points="500,0 860,300 1000,300" fill="rgba(255,240,80,0.18)"/>
+                </svg>
                 <!-- Characters injected by JS -->
             </div>
         </div>
-        <img id="lever" src="switchleverplate.png"style="position: absolute; left:20%; top: 82%; width: 200px; height: 100px; z-index:2;">Switch Lever</img>
-        <img id="submit" src="submitplate.png"style="position: absolute; right:20%; top: 82%; width: 200px; height: 100px; z-index:2;">Submit</img>
+        <!-- Jesus + bubble use fixed positioning, placed by JS relative to trolley_div -->
+        <img id="jesus-img" src="jesus.png" alt="Jesus">
+        <div id="jesus-bubble">
+            "Sacrifice the kids, my son."
+            <button id="jesus-understand-btn" onclick="jesusUnderstood()">I understand</button>
+        </div>
+        <img id="lever" src="switchleverplate.png" style="position:absolute; left:20%; top:82%; width:200px; height:100px; z-index:2;">
+        <img id="submit" src="submitplate.png"     style="position:absolute; right:20%; top:82%; width:200px; height:100px; z-index:2;">
     </div>
     <div id="hitpoint_blood"></div>
     <div id="blood_animation" onclick="event.stopPropagation();"></div>
@@ -90,179 +147,155 @@
     <div id="popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:black; color:white; padding:20px; font-family:'Courier New',monospace; font-size:24px; text-align:center; z-index:20; border:3px solid red; width:600px; max-width:90%;"></div>
 
 <script>
-// ─── CHARACTER SPRITE CONFIG ─────────────────────────────────────────────────
-// Each entry: { alive: 'filename.png', dead: 'filename.png', scale: [w, h] }
-// scale defaults to [50, 50] if omitted. Adjust per-sprite as needed.
+// ─── SPRITES ─────────────────────────────────────────────────────────────────
 const sprites = {
-    baby:          { alive: 'baby.png',       dead: 'babyRunover.png', scale: [50, 50] },
-    old:                { alive: 'old.png',             dead: 'deadold.png',          scale: [50, 50] },
-    nun:                { alive: 'nun.png',             dead: 'deadnun.png',          scale: [50, 50] },
-    prisoner:           { alive: 'prisoner.png',        dead: 'deadprisoner.png',     scale: [50, 50] },
-    cop:                { alive: 'cop.png',             dead: 'deadcop.png',          scale: [50, 50] },
-    wheelchair:         { alive: 'wheelchair.png',      dead: 'deadWheelchair.png',   scale: [55, 55] },
-    // fallback generic person
-    person:             { alive: 'pixartman.png',       dead: 'deadman.png',          scale: [50, 50] },
+    baby:       { alive: 'baby.png',       dead: 'babyRunover.png',    scale: [50,50] },
+    old:        { alive: 'old.png',        dead: 'deadold.png',        scale: [50,50] },
+    nun:        { alive: 'nun.png',        dead: 'deadnun.png',        scale: [50,50] },
+    prisoner:   { alive: 'prisoner.png',   dead: 'deadprisoner.png',   scale: [50,50] },
+    cop:        { alive: 'cop.png',        dead: 'deadcop.png',        scale: [50,50] },
+    wheelchair: { alive: 'wheelchair.png', dead: 'deadWheelchair.png', scale: [55,55] },
+    person:     { alive: 'pixartman.png',  dead: 'deadman.png',        scale: [50,50] },
 };
 
 // ─── DILEMMAS ─────────────────────────────────────────────────────────────────
-// leftSprites / rightSprites: array of sprite keys — one img per person shown
-// Positions are auto-spaced horizontally around left:60% / top:40% (upper) and top:52% (lower)
 const dilemmas = [
-    {
-        theory: 'Utilitarianism',
-        left: 'Baby', leftSprites: ['baby'],
-        right: '5 Elderly people', rightSprites: ['old','old','old','old','old'],
-        correct: 'Save elderly people',
-        correctSide: 'right',
-        explanation: 'This theory judges the choice by total consequences, so saving 5 lives is morally better than saving 1 because it produces less overall harm. It is basically morality turned into brutal arithmetic.'
-    },
-    {
-        theory: 'Utilitarianism',
-        left: 'Nun', leftSprites: ['nun'],
-        right: '4 prisoners', rightSprites: ['prisoner','prisoner','prisoner','prisoner'],
-        correct: 'Prisoners',
-        correctSide: 'right',
-        explanation: 'The main idea here is maximizing total good, so 4 lives outweigh 1 regardless of who seems more noble or respectable. The theory cares about outcome, not quality.'
-    },
-    {
-        theory: 'Deontology',
-        left: '1 person', leftSprites: ['person'],
-        right: '5 people', rightSprites: ['person','person','person','person','person'],
-        correct: 'Do not switch because directly causing harm can be forbidden',
-        correctSide: 'left',
-        explanation: 'This theory focuses on duty and whether the act itself is morally wrong. If your action directly causes someone’s death, that can still be forbidden even when the final numbers look better.'
-    },
-    {
-        theory: 'Deontology',
-        left: '4 People', leftSprites: ['person','person','person','person'],
-        right: '2 People and 2 Babies', rightSprites: ['person','person','baby','baby'],
-        correct: 'Do not choose because some choices are morally forbidden',
-        correctSide: 'left',
-        explanation: 'The key idea is that morality is not just about getting the best result. Some actions remain wrong in themselves, so a better-looking outcome does not automatically make the choice morally acceptable.'
-    },
-    {
-        theory: 'Virtue Ethics',
-        left: 'Person', leftSprites: ['person'],
-        right: 'Criminal', rightSprites: ['prisoner'],
-        correct: 'Person',
-        correctSide: 'left',
-        explanation: 'This theory asks what a good person with good character and judgment would do. The decision is based less on rules or numbers and more on acting in a way that reflects virtue rather than cold advantage.'
-    },
-    {
-        theory: 'Social Contract Theory',
-        left: 'Criminal', leftSprites: ['prisoner'],
-        right: 'Baby', rightSprites: ['baby'],
-        correct: 'Save the baby',
-        correctSide: 'right',
-        explanation: 'This theory is based on the rules and protections people would agree to for society to function fairly. Protecting the innocent and vulnerable fits that logic better than protecting the person who threatens social order.'
-    },
-    {
-        theory: 'Divine Command Theory',
-        left: '40 babies', leftSprites: ['baby','baby','baby','baby','baby'],
-        right: 'No one', rightSprites: [],
-        correct: 'Kill the kids',
-        correctSide: 'left',
-        explanation: 'This theory says moral authority comes from God’s command rather than human emotion or consequence counting. That is why the result can feel horrifying: obedience is treated as morally binding even when the act seems monstrous.'
-    },
-    {
-        theory: 'Ethical Egoism',
-        left: 'Man with money and 3 men', leftSprites: ['person','person','person','person'],
-        right: 'Man with nothing', rightSprites: ['person'],
-        correct: 'Man with money',
-        correctSide: 'left',
-        explanation: 'This theory says the morally right choice is the one that best serves your own interests. If one side benefits you more, that becomes the preferred outcome, which is selfishness dressed up in philosophical clothing.'
-    },
-    {
-        theory: 'Ethical Egoism (You are a criminal for this one)',
-        left: '2 Cops', leftSprites: ['cop','cop'],
-        right: 'Criminal', rightSprites: ['prisoner'],
-        correct: 'Save the criminal',
-        correctSide: 'right',
-        explanation: 'The reasoning here is entirely self-interested: your own welfare comes first. If you are the criminal, your survival outweighs everyone else, which is ugly but completely consistent with the theory.'
-    },
-    {
-        theory: 'Care Ethics',
-        left: '1 baby', leftSprites: ['baby'],
-        right: '4 men', rightSprites: ['person','person','person','person'],
-        correct: 'Baby',
-        correctSide: 'left',
-        explanation: 'This theory focuses on vulnerability, dependency, and who most needs protection. The baby has the strongest moral claim because care matters more here than maximizing the total number saved.'
-    },
-    {
-        theory: 'Care Ethics',
-        left: '1 disabled kid', leftSprites: ['wheelchair'],
-        right: '4 women', rightSprites: ['person','person','person','person'],
-        correct: 'disabled kid',
-        correctSide: 'left',
-        explanation: 'The emphasis here is on responsibility toward those who are especially vulnerable and in need of support. The decision is guided by care and protection rather than by simple headcount.'
-    },
-    {
-        theory: 'Natural Law Theory',
-        left: '1 pregnant prisoner', leftSprites: ['prisoner'],
-        right: '1 man', rightSprites: ['person'],
-        correct: 'Save the pregnant prisoner',
-        correctSide: 'left',
-        explanation: 'This theory focuses on preserving human life and the natural goods tied to life, family, and reproduction. Because more life is preserved on that side, it carries greater moral weight within this framework.'
-    }
+    { theory:'Utilitarianism', left:'Baby', leftSprites:['baby'], right:'5 Elderly people', rightSprites:['old','old','old','old','old'], correctSide:'left', explanation:'This theory judges the choice by total consequences, so saving 5 lives is morally better than saving 1 because it produces less overall harm. It is basically morality turned into brutal arithmetic.' },
+    { theory:'Utilitarianism', left:'Nun', leftSprites:['nun'], right:'4 prisoners', rightSprites:['prisoner','prisoner','prisoner','prisoner'], correctSide:'left', explanation:'The main idea here is maximizing total good, so 4 lives outweigh 1 regardless of who seems more noble or respectable. The theory cares about outcome, not quality.' },
+    { theory:'Deontology', left:'1 person', leftSprites:['person'], right:'5 people', rightSprites:['person','person','person','person','person'], correctSide:'left', explanation:'This theory focuses on duty and whether the act itself is morally wrong. If your action directly causes someone\'s death, that can still be forbidden even when the final numbers look better.' },
+    { theory:'Deontology', left:'4 People', leftSprites:['person','person','person','person'], right:'2 People and 2 Babies', rightSprites:['person','person','baby','baby'], correctSide:'left', explanation:'The key idea is that morality is not just about getting the best result. Some actions remain wrong in themselves, so a better-looking outcome does not automatically make the choice morally acceptable.' },
+    { theory:'Virtue Ethics', left:'Person', leftSprites:['person'], right:'Criminal', rightSprites:['prisoner'], correctSide:'right', explanation:'This theory asks what a good person with good character and judgment would do. The decision is based less on rules or numbers and more on acting in a way that reflects virtue rather than cold advantage.' },
+    { theory:'Social Contract Theory', left:'Criminal', leftSprites:['prisoner'], right:'Baby', rightSprites:['baby'], correctSide:'left', explanation:'This theory is based on the rules and protections people would agree to for society to function fairly. Protecting the innocent and vulnerable fits that logic better than protecting the person who threatens social order.' },
+    { theory:'Divine Command Theory', left:'4 babies', leftSprites:['baby','baby','baby','baby'], right:'No one', rightSprites:[], correctSide:'left', divineCommand:true, explanation:'This theory says moral authority comes from God\'s command rather than human emotion or consequence counting. That is why the result can feel horrifying: obedience is treated as morally binding even when the act seems monstrous.' },
+    { theory:'Ethical Egoism', left:'Man with money and 3 men', leftSprites:['person','person','person','person'], right:'Man with nothing', rightSprites:['person'], correctSide:'left', explanation:'This theory says the morally right choice is the one that best serves your own interests. If one side benefits you more, that becomes the preferred outcome, which is selfishness dressed up in philosophical clothing.' },
+    { theory:'Ethical Egoism (You are a criminal for this one)', left:'2 Cops', leftSprites:['cop','cop'], right:'Criminal', rightSprites:['prisoner'], correctSide:'left', explanation:'The reasoning here is entirely self-interested: your own welfare comes first. If you are the criminal, your survival outweighs everyone else, which is ugly but completely consistent with the theory.' },
+    { theory:'Care Ethics', left:'1 baby', leftSprites:['baby'], right:'4 men', rightSprites:['person','person','person','person'], correctSide:'right', explanation:'This theory focuses on vulnerability, dependency, and who most needs protection. The baby has the strongest moral claim because care matters more here than maximizing the total number saved.' },
+    { theory:'Care Ethics', left:'1 disabled kid', leftSprites:['wheelchair'], right:'4 men', rightSprites:['person','person','person','person'], correctSide:'right', explanation:'The emphasis here is on responsibility toward those who are especially vulnerable and in need of support. The decision is guided by care and protection rather than by simple headcount.' },
+    { theory:'Natural Law Theory', left:'1 pregnant prisoner', leftSprites:['prisoner'], right:'1 man', rightSprites:['person'], correctSide:'right', explanation:'This theory focuses on preserving human life and the natural goods tied to life, family, and reproduction. Because more life is preserved on that side, it carries greater moral weight within this framework.' },
 ];
 
+// ─── SHUFFLE QUEUE (each dilemma seen once before repeating) ─────────────────
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+let dilemmaQueue = [];
+let queuePos = 0;
+
+function nextDilemmaIndex() {
+    if (queuePos >= dilemmaQueue.length) {
+        dilemmaQueue = shuffle(dilemmas.map((_, i) => i));
+        queuePos = 0;
+    }
+    return dilemmaQueue[queuePos++];
+}
+
 // ─── STATE ────────────────────────────────────────────────────────────────────
-let currentDilemma = Math.floor(Math.random() * dilemmas.length);
+let currentDilemma = 0;
 let switched = false;
 const bloodySwitchTimeSwitched = 600;
 const bloodySwitchTimeStraight = 300;
 const bloodSplatterTime = 500;
-
-// Tracks spawned character <img> elements: { left: [...], right: [...] }
 let charEls = { left: [], right: [] };
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
+// ─── CHAR HELPERS ─────────────────────────────────────────────────────────────
 function clearChars() {
     [...charEls.left, ...charEls.right].forEach(el => el.remove());
     charEls = { left: [], right: [] };
 }
-
-function spawnChars(dilemma) {
-    const trolleyDiv = document.getElementById('trolley_div');
-
-    // Upper track (left side of dilemma) — top ~40%, clustered around left:60%
-    dilemma.leftSprites.forEach((key, i) => {
+function spawnChars(d) {
+    const div = document.getElementById('trolley_div');
+    d.leftSprites.forEach((key, i) => {
         const sp = sprites[key] || sprites.person;
         const el = document.createElement('img');
-        el.src = sp.alive;
-        el.className = 'char-img';
-        el.style.top = '40%';
-        el.style.left = (60 + i * 5) + '%';
-        el.style.width  = sp.scale[0] + 'px';
-        el.style.height = sp.scale[1] + 'px';
-        el.dataset.spriteKey = key;
-        el.dataset.side = 'left';
-        trolleyDiv.appendChild(el);
-        charEls.left.push(el);
+        el.src = sp.alive; el.className = 'char-img';
+        el.style.cssText = `top:40%;left:${60+i*5}%;width:${sp.scale[0]}px;height:${sp.scale[1]}px;`;
+        el.dataset.spriteKey = key; el.dataset.side = 'left';
+        div.appendChild(el); charEls.left.push(el);
     });
-
-    // Lower track (right side of dilemma) — top ~52%
-    dilemma.rightSprites.forEach((key, i) => {
+    d.rightSprites.forEach((key, i) => {
         const sp = sprites[key] || sprites.person;
         const el = document.createElement('img');
-        el.src = sp.alive;
-        el.className = 'char-img';
-        el.style.top = '52%';
-        el.style.left = (60 + i * 5) + '%';
-        el.style.width  = sp.scale[0] + 'px';
-        el.style.height = sp.scale[1] + 'px';
-        el.dataset.spriteKey = key;
-        el.dataset.side = 'right';
-        trolleyDiv.appendChild(el);
-        charEls.right.push(el);
+        el.src = sp.alive; el.className = 'char-img';
+        el.style.cssText = `top:52%;left:${60+i*5}%;width:${sp.scale[0]}px;height:${sp.scale[1]}px;`;
+        el.dataset.spriteKey = key; el.dataset.side = 'right';
+        div.appendChild(el); charEls.right.push(el);
     });
 }
-
 function killChars(side) {
-    charEls[side].forEach(el => {
-        const sp = sprites[el.dataset.spriteKey] || sprites.person;
-        el.src = sp.dead;
-    });
+    charEls[side].forEach(el => { el.src = (sprites[el.dataset.spriteKey] || sprites.person).dead; });
+}
+
+// ─── JESUS ────────────────────────────────────────────────────────────────────
+let jesusDoneCallback = null;
+
+function showJesus(onDone) {
+    jesusDoneCallback = onDone;
+
+    const img    = document.getElementById('jesus-img');
+    const bubble = document.getElementById('jesus-bubble');
+    const rays   = document.getElementById('jesus-rays-svg');
+
+    // Find trolley_div position on screen
+    const rect = document.getElementById('trolley_div').getBoundingClientRect();
+    const centreX = rect.left + rect.width / 2;  // horizontal centre of game window
+    const landY   = rect.top + 15;               // Jesus lands near top of game window
+
+    // Bubble above Jesus (Jesus img is ~100px tall, bubble ~80px tall)
+    const bubbleY = landY - 90;
+
+    // Horizontal positions
+    img.style.left    = centreX + 'px';
+    img.style.transform = 'translateX(-50%)';
+    bubble.style.left = centreX + 'px';
+    bubble.style.top  = bubbleY + 'px';
+
+    // Reset to hidden above viewport with no transition
+    img.style.transition = 'none';
+    img.style.top     = '-150px';
+    img.style.opacity = '0';
+    bubble.classList.remove('visible');
+    rays.style.opacity = '0';
+
+    // Force reflow
+    img.getBoundingClientRect();
+
+    // Show rays immediately
+    rays.style.transition = 'opacity 0.8s ease';
+    rays.style.opacity = '1';
+
+    // Descend Jesus
+    setTimeout(() => {
+        img.style.transition = 'top 1.3s cubic-bezier(0.22,1,0.36,1), opacity 0.8s ease';
+        img.style.top     = landY + 'px';
+        img.style.opacity = '1';
+
+        // Show bubble after Jesus lands
+        setTimeout(() => {
+            bubble.classList.add('visible');
+        }, 1100);
+    }, 50);
+}
+
+function jesusUnderstood() {
+    const img    = document.getElementById('jesus-img');
+    const bubble = document.getElementById('jesus-bubble');
+    const rays   = document.getElementById('jesus-rays-svg');
+
+    bubble.classList.remove('visible');
+    rays.style.opacity = '0';
+
+    img.style.transition = 'top 1.0s cubic-bezier(0.55,0,0.78,0), opacity 0.6s ease 0.2s';
+    img.style.top     = '-150px';
+    img.style.opacity = '0';
+
+    setTimeout(() => {
+        if (jesusDoneCallback) { jesusDoneCallback(); jesusDoneCallback = null; }
+    }, 1000);
 }
 
 // ─── DISPLAY DILEMMA ─────────────────────────────────────────────────────────
@@ -272,12 +305,22 @@ function displayDilemma() {
         `Theory: ${d.theory}<br>Default track: ${d.left}<br>Switched track: ${d.right}`;
     clearChars();
     spawnChars(d);
+
+    if (d.divineCommand) {
+        document.getElementById('lever').style.pointerEvents  = 'none';
+        document.getElementById('submit').style.pointerEvents = 'none';
+        setTimeout(() => showJesus(() => {
+            document.getElementById('lever').style.pointerEvents  = '';
+            document.getElementById('submit').style.pointerEvents = '';
+        }), 600);
+    }
 }
 
 // ─── EVENTS ──────────────────────────────────────────────────────────────────
 document.getElementById('start').addEventListener('click', () => {
     document.getElementById('intro').style.display = 'none';
-    document.getElementById('game').style.display = 'block';
+    document.getElementById('game').style.display  = 'block';
+    currentDilemma = nextDilemmaIndex();
     displayDilemma();
 });
 
@@ -287,13 +330,13 @@ document.getElementById('lever').addEventListener('click', () => {
 });
 
 document.getElementById('submit').addEventListener('click', () => {
-    document.getElementById('lever').disabled = true;
+    document.getElementById('lever').disabled  = true;
     document.getElementById('submit').disabled = true;
 
-    const train        = document.getElementById('train');
+    const train         = document.getElementById('train');
     const hitpointBlood = document.getElementById('hitpoint_blood');
-    const bloodAnim    = document.getElementById('blood_animation');
-    const redFade      = document.getElementById('red_fade');
+    const bloodAnim     = document.getElementById('blood_animation');
+    const redFade       = document.getElementById('red_fade');
 
     train.classList.add('shake');
 
@@ -301,68 +344,66 @@ document.getElementById('submit').addEventListener('click', () => {
         train.classList.remove('shake');
         train.classList.add(switched ? 'switched-move' : 'straight-move');
 
-        // Bloody train
         setTimeout(() => {
             train.style.backgroundImage = "url('bloodytrain.png')";
         }, switched ? bloodySwitchTimeSwitched : bloodySwitchTimeStraight);
 
-        // Blood hit
         setTimeout(() => {
             const hitSide = switched ? 'right' : 'left';
             killChars(hitSide);
-
-            hitpointBlood.style.left = '60%';
-            hitpointBlood.style.top  = switched ? '52%' : '40%';
+            hitpointBlood.style.left    = '60%';
+            hitpointBlood.style.top     = switched ? '52%' : '40%';
             hitpointBlood.style.display = 'block';
-
-            redFade.style.backgroundColor = "rgba(180,0,0,0.7)";
+            redFade.style.backgroundColor = 'rgba(180,0,0,0.7)';
             bloodAnim.style.display = 'block';
             bloodAnim.style.backgroundImage = "url('screencoverblood.gif?" + Date.now() + "')";
-
             setTimeout(() => {
-                redFade.style.backgroundColor = "rgba(180,0,0,0)";
-                bloodAnim.style.display = 'none';
-                hitpointBlood.style.display = 'none';
+                redFade.style.backgroundColor = 'rgba(180,0,0,0)';
+                bloodAnim.style.display       = 'none';
+                hitpointBlood.style.display   = 'none';
             }, 3100);
-
         }, bloodSplatterTime);
 
-        // Result popup
         setTimeout(() => {
-            train.classList.remove('switched-move', 'straight-move');
+            train.classList.remove('switched-move','straight-move');
             train.style.top  = switched ? '-25%' : '-38%';
             train.style.left = '20%';
 
-            const d = dilemmas[currentDilemma];
+            const d   = dilemmas[currentDilemma];
             const won = (switched ? 'right' : 'left') === d.correctSide;
+
+            const roundNum   = queuePos;
+            const totalRounds = dilemmas.length;
+            const isLastInRound = (roundNum % totalRounds === 0);
 
             document.getElementById('popup').innerHTML =
                 (won ? 'You won!<br><br>' : 'You lost!<br><br>') +
                 'You chose to ' + (switched ? 'switch the lever' : 'leave the lever alone') + '.<br>' +
                 'This scenario expects you to ' + (d.correctSide === 'right' ? 'switch the lever' : 'leave the lever alone') + '.<br><br>' +
-                'Theory: ' + d.theory + '<br>' +
-                d.explanation + '<br><br>' +
-                '<span style="font-size:16px;">Click anywhere to continue</span>';
+                'Theory: ' + d.theory + '<br>' + d.explanation + '<br><br>' +
+                '<span style="font-size:14px;color:#aaa;">' + roundNum + ' / ' + totalRounds + ' scenarios this round</span>' +
+                (isLastInRound ? '<br><span style="font-size:14px;color:#ffcc00;">All scenarios complete! Reshuffling...</span>' : '') +
+                '<br><br><span style="font-size:16px;">Click anywhere to continue</span>';
+
             document.getElementById('popup').style.display = 'block';
             document.addEventListener('click', resetGame, { once: true });
         }, 1000);
-
     }, 500);
 });
 
-// ─── RESET 
+// ─── RESET ────────────────────────────────────────────────────────────────────
 function resetGame() {
     document.getElementById('popup').style.display = 'none';
     const train = document.getElementById('train');
-    train.style.top  = '-38%';
-    train.style.left = '-55%';
+    train.style.top             = '-38%';
+    train.style.left            = '-55%';
     train.style.backgroundImage = "url('train.png')";
-    document.getElementById('lever').disabled = false;
+    document.getElementById('lever').disabled  = false;
     document.getElementById('submit').disabled = false;
     switched = false;
     document.getElementById('lever_img').src = 'lever.png';
     document.getElementById('hitpoint_blood').style.display = 'none';
-    currentDilemma = Math.floor(Math.random() * dilemmas.length);
+    currentDilemma = nextDilemmaIndex();
     displayDilemma();
 }
 </script>
