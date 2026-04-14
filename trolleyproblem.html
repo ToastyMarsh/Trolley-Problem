@@ -103,9 +103,24 @@
             box-shadow: 0 2px 6px rgba(200,168,0,0.4);
         }
         #jesus-understand-btn:hover { background: linear-gradient(135deg, #fff0a0, #e0b800); }
+        .startinggif {
+            display: block;
+            position: absolute;
+            width: 100%;
+            left: 0%;
+            bottom: 0%;
+            background-color: transparent;
+            background-size: cover;
+            background-position: bottom;
+            opacity: 100%;
+            height: 100%;
+            z-index: 1000;
+            background-image: url("foxy.gif");
+        }
     </style>
 </head>
 <body>
+    <!-- <img class="startinggif" src="gamecubeintro.gif" style="width: 300px; height: auto; margin-top: 30px; z-index: 999;"> -->
     <div id="intro">
         <h1>Trolley Problem Game</h1>
         <img id="start" src="startplate.png" style="width: 150px; height: 75px">
@@ -318,6 +333,7 @@ function displayDilemma() {
 
 // ─── EVENTS ──────────────────────────────────────────────────────────────────
 document.getElementById('start').addEventListener('click', () => {
+
     document.getElementById('intro').style.display = 'none';
     document.getElementById('game').style.display  = 'block';
     currentDilemma = nextDilemmaIndex();
@@ -327,6 +343,8 @@ document.getElementById('start').addEventListener('click', () => {
 document.getElementById('lever').addEventListener('click', () => {
     switched = !switched;
     document.getElementById('lever_img').src = switched ? 'leverdown.png' : 'lever.png';
+    document.getElementById('bottomrails').style.boxShadow = switched ? 'inset 0 0 20px 5px rgba(255,0,0,0.8)' : 'none';
+    document.getElementById('rails').style.boxShadow = switched ? 'none' : 'inset 0 0 20px 5px rgba(255,0,0,0.8)';
 });
 
 document.getElementById('submit').addEventListener('click', () => {
@@ -343,6 +361,7 @@ document.getElementById('submit').addEventListener('click', () => {
     setTimeout(() => {
         train.classList.remove('shake');
         train.classList.add(switched ? 'switched-move' : 'straight-move');
+        
 
         setTimeout(() => {
             train.style.backgroundImage = "url('bloodytrain.png')";
@@ -403,6 +422,8 @@ function resetGame() {
     switched = false;
     document.getElementById('lever_img').src = 'lever.png';
     document.getElementById('hitpoint_blood').style.display = 'none';
+    document.getElementById('bottomrails').style.boxShadow = 'none';
+    document.getElementById('rails').style.boxShadow = 'inset 0 0 20px 5px rgba(255,0,0,0.8)';
     currentDilemma = nextDilemmaIndex();
     displayDilemma();
 }
